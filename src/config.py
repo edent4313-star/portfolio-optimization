@@ -26,3 +26,10 @@ TICKERS = [
     "BND",
     "SPY"
 ]
+
+MODELS_DIR = BASE_DIR / "models"
+
+MODELS_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
