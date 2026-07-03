@@ -1,5 +1,5 @@
 from pathlib import Path
-from config import PROCESSED_DATA_DIR
+from src.config import PROCESSED_DATA_DIR
 from src.logger import logger
 
 def clean_dataset(df):
