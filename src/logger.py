@@ -1,5 +1,5 @@
 import logging
-from src.config import LOG_DIR
+from config import LOG_DIR
 
 log_file = LOG_DIR / "project.log"
 
