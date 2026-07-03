@@ -1,4 +1,5 @@
 from src.data_loader import download_all_assets
+from src.logger import logger
 
 
 def test_download_all_assets():
