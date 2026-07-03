@@ -1,6 +1,6 @@
 from pathlib import Path
-from config import PROCESSED_DATA_DIR
-from logger import logger
+from src.config import PROCESSED_DATA_DIR
+from src.logger import logger
 
 def clean_dataset(df):
     # Your logic to clean a single dataframe goes here
