@@ -9,3 +9,6 @@ pytest
 jupyter
 ipykernel
 pyarrow
+joblib
+pmdarima
+tensorflow

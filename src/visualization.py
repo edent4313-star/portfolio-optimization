@@ -60,3 +60,22 @@ def plot_daily_return(df, ticker):
     plt.grid(True)
 
     plt.show()
+class Visualizer:
+
+    @staticmethod
+    def plot_forecast(actual, predicted, title):
+
+        try:
+            plt.figure(figsize=(12,5))
+
+            plt.plot(actual, label="Actual")
+            plt.plot(predicted, label="Predicted")
+
+            plt.title(title)
+            plt.legend()
+            plt.grid(True)
+
+            plt.show()
+
+        except Exception as e:
+            raise RuntimeError(f"Plot error: {e}")
