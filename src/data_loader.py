@@ -1,5 +1,6 @@
 import yfinance as yf
 import pandas as pd
+from pathlib import Path
 
 from src.logger import logger
 from src.config import (
@@ -78,3 +79,24 @@ def download_all_assets():
     logger.info("All assets downloaded successfully.")
 
     return assets
+
+class DataLoader:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def load_data(self) -> pd.DataFrame:
+        try:
+            path = Path(self.file_path)
+
+            if not path.exists():
+                raise FileNotFoundError(f"File not found: {self.file_path}")
+
+            df = pd.read_csv(path)
+
+            if df.empty:
+                raise ValueError("Dataset is empty")
+
+            return df
+
+        except Exception as e:
+            raise RuntimeError(f"Error loading data: {e}")
