@@ -79,3 +79,80 @@ class Visualizer:
 
         except Exception as e:
             raise RuntimeError(f"Plot error: {e}")
+
+    @staticmethod
+    def plot_future_forecast(
+        history_dates,
+        history_prices,
+        future_dates,
+        forecast,
+        lower,
+        upper,
+        title="Future Stock Forecast"
+    ):
+
+        try:
+
+            plt.figure(figsize=(16,6))
+
+            plt.plot(
+
+                history_dates,
+
+                history_prices,
+
+                label="Historical",
+
+                linewidth=2
+
+            )
+
+            plt.plot(
+
+                future_dates,
+
+                forecast,
+
+                color="red",
+
+                linewidth=2,
+
+                label="Forecast"
+
+            )
+
+            plt.fill_between(
+
+                future_dates,
+
+                lower,
+
+                upper,
+
+                color="red",
+
+                alpha=0.2,
+
+                label="95% Confidence Interval"
+
+            )
+
+            plt.title(title)
+
+            plt.xlabel("Date")
+
+            plt.ylabel("Close Price")
+
+            plt.legend()
+
+            plt.grid(True)
+
+            plt.tight_layout()
+
+            plt.show()
+
+        except Exception as e:
+
+            raise RuntimeError(
+                f"Visualization failed.\n{e}"
+            )
