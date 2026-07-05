@@ -18,10 +18,6 @@ def clean_all_data(assets):
         cleaned[ticker] = clean_dataset(df) 
     return cleaned
 
-    
-
-
-
 def save_processed_data(assets):
     """
     Save processed DataFrames as CSV files.
