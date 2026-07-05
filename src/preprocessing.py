@@ -17,6 +17,7 @@ def clean_all_data(assets):
         # This line was failing because it couldn't find the function above
         cleaned[ticker] = clean_dataset(df) 
     return cleaned
+
     
 
 
@@ -114,3 +115,24 @@ class TimeSeriesPreprocessor:
 
         except Exception as e:
             raise RuntimeError(f"Sequence error: {e}")
+
+def clean_data(self, df):
+
+    try:
+
+        df = df.copy()
+
+        df = df.sort_values("Date")
+
+        numeric_cols = df.select_dtypes(include="number").columns
+
+        df[numeric_cols] = (
+            df[numeric_cols]
+            .ffill()
+            .bfill()
+        )
+
+        return df
+
+    except Exception as e:
+        raise RuntimeError(f"Preprocessing error: {e}")

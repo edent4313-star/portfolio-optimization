@@ -81,22 +81,47 @@ def download_all_assets():
     return assets
 
 class DataLoader:
-    def __init__(self, file_path: str):
+
+    def __init__(self, file_path):
         self.file_path = file_path
 
-    def load_data(self) -> pd.DataFrame:
+    def load_data(self):
+
         try:
+
             path = Path(self.file_path)
 
             if not path.exists():
-                raise FileNotFoundError(f"File not found: {self.file_path}")
+                raise FileNotFoundError(f"{path} not found")
 
             df = pd.read_csv(path)
 
-            if df.empty:
-                raise ValueError("Dataset is empty")
+            # ---------------------------------
+            # Remove the extra Yahoo Finance rows
+            # ---------------------------------
+            if str(df.iloc[0, 0]) == "Ticker":
+                df = df.iloc[2:].reset_index(drop=True)
+
+            # ---------------------------------
+            # Rename first column to Date
+            # ---------------------------------
+            df.rename(
+                columns={df.columns[0]: "Date"},
+                inplace=True
+            )
+
+            # ---------------------------------
+            # Convert date
+            # ---------------------------------
+            df["Date"] = pd.to_datetime(df["Date"])
+
+            # ---------------------------------
+            # Convert remaining columns to numeric
+            # ---------------------------------
+            for col in df.columns[1:]:
+                df[col] = pd.to_numeric(df[col], errors="coerce")
 
             return df
 
         except Exception as e:
-            raise RuntimeError(f"Error loading data: {e}")
+            raise RuntimeError(f"Loading error: {e}")
