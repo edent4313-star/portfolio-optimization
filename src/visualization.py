@@ -394,3 +394,171 @@ class PortfolioVisualizer:
             raise RuntimeError(
                 f"Unable to plot portfolio allocation.\n{e}"
             )
+        # --------------------------------------------------------
+    # Strategy vs Benchmark
+    # --------------------------------------------------------
+
+    @staticmethod
+    def cumulative_returns_plot(
+        strategy_returns,
+        benchmark_returns,
+        save_path=None
+    ):
+
+        """
+        Plot cumulative returns for strategy and benchmark.
+        """
+
+        try:
+
+            strategy = (1 + strategy_returns).cumprod()
+
+            benchmark = (1 + benchmark_returns).cumprod()
+
+            plt.figure(figsize=(12,6))
+
+            plt.plot(
+                strategy.index,
+                strategy.values,
+                linewidth=2,
+                label="Strategy"
+            )
+
+            plt.plot(
+                benchmark.index,
+                benchmark.values,
+                linewidth=2,
+                label="60% SPY / 40% BND Benchmark"
+            )
+
+            plt.title(
+                "Cumulative Returns Comparison"
+            )
+
+            plt.xlabel("Date")
+
+            plt.ylabel("Portfolio Value")
+
+            plt.grid(True)
+
+            plt.legend()
+
+            plt.tight_layout()
+
+            if save_path:
+
+                save_path = Path(save_path)
+
+                save_path.parent.mkdir(
+                    parents=True,
+                    exist_ok=True
+                )
+
+                plt.savefig(
+                    save_path,
+                    dpi=300
+                )
+
+            plt.show()
+
+        except Exception as e:
+
+            raise RuntimeError(
+                f"Cumulative return plot failed.\n{e}"
+            )
+        # --------------------------------------------------------
+    # Drawdown Plot
+    # --------------------------------------------------------
+
+    @staticmethod
+    def drawdown_plot(
+        strategy_returns,
+        benchmark_returns,
+        save_path=None
+    ):
+
+        """
+        Compare portfolio drawdowns.
+        """
+
+        try:
+
+            strategy = (1 + strategy_returns).cumprod()
+
+            benchmark = (1 + benchmark_returns).cumprod()
+
+            strategy_drawdown = (
+
+                strategy
+
+                / strategy.cummax()
+
+            ) - 1
+
+            benchmark_drawdown = (
+
+                benchmark
+
+                / benchmark.cummax()
+
+            ) - 1
+
+            plt.figure(figsize=(12,6))
+
+            plt.plot(
+
+                strategy_drawdown.index,
+
+                strategy_drawdown,
+
+                linewidth=2,
+
+                label="Strategy"
+
+            )
+
+            plt.plot(
+
+                benchmark_drawdown.index,
+
+                benchmark_drawdown,
+
+                linewidth=2,
+
+                label="Benchmark"
+
+            )
+
+            plt.title("Maximum Drawdown")
+
+            plt.xlabel("Date")
+
+            plt.ylabel("Drawdown")
+
+            plt.grid(True)
+
+            plt.legend()
+
+            plt.tight_layout()
+
+            if save_path:
+
+                save_path = Path(save_path)
+
+                save_path.parent.mkdir(
+                    parents=True,
+                    exist_ok=True
+                )
+
+                plt.savefig(
+                    save_path,
+                    dpi=300
+                )
+
+            plt.show()
+
+        except Exception as e:
+
+            raise RuntimeError(
+                f"Drawdown plot failed.\n{e}"
+            )
